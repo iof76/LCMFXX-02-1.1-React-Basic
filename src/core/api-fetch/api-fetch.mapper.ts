@@ -12,7 +12,7 @@ const mapCharacterFromApiToVm = (
 });
 
 export const mapCharacterListFromApiToVm = (
-  characterPage: apiModel.CharacterPageApiModel,
+  characterPage: apiModel.CharacterApiModel[],
 ): Character[] =>
   characterPage
     ? characterPage.map(mapCharacterFromApiToVm)
