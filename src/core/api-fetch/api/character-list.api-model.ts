@@ -12,13 +12,4 @@ export const characterSchema = z.object({
   episodeCount: z.number(),
 });
 
-export const characterPageSchema = z.object({
-  info: z.object({
-    pages: z.number(),
-    count: z.number(),
-  }),
-  results: z.array(characterSchema),
-});
-
 export type CharacterApiModel = z.infer<typeof characterSchema>;
-export type CharacterPageApiModel = z.infer<typeof characterPageSchema>;

@@ -14,7 +14,7 @@ export const ButtonLoadMore = (props: Props) => {
       }else{
         return (
           <>
-            <button className="btn-loadmore" onClick={handleLoadMore} disabled={isEnd}>Cargar más</button>  
+            <button className="btn btn-primary" onClick={handleLoadMore} disabled={isEnd}>Cargar más</button>  
           </>
         )
       }

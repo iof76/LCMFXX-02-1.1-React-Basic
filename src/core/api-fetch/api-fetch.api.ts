@@ -18,8 +18,6 @@ export const fetchMembers = async(page: number) => {
       console.error(e);
       return {totalPages: 0, resMembers: []};
     }
-
-
 }
 
 export const fetchSingleMember = async(id: number) => {
