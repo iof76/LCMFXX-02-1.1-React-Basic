@@ -21,8 +21,6 @@ export const ApiFetchProvider = (props: Props) => {
       const loadData = async() => {
         setDisable(true);
           const {totalPages, resMembers} = await fetchMembers(1);
-          console.log("totalPages", totalPages);
-          console.log("resMembers", resMembers);
           setMembers([...mapCharacterListFromApiToVm(resMembers)]);
           setEndPages(totalPages);
           setPage(2);

@@ -4,8 +4,6 @@ export const fetchMembers = async(page: number) => {
       const response = await fetch(`/api/characters?page=${page}`);
       const json = await response.json();
 
-      console.log("fetchMembers", json);
-
       if(!response.ok){
         throw new Error(`Error ${response.status} al cargar personajes`);
       }
@@ -23,8 +21,6 @@ export const fetchMembers = async(page: number) => {
 export const fetchSingleMember = async(id: number) => {
     const response = await fetch(`/api/characters/${id}`);
     const json = await response.json();
-
-    console.log("fetchSingleMember", json);
 
     if(!response.ok){
       throw new Error(`Error ${response.status} al cargar personaje`);

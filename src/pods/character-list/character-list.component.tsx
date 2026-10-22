@@ -7,7 +7,7 @@ interface Props {
 
 export const CharacterListComponent = (props: Props) => {
   const { characters } = props;
-  console.log("CharacterListComponent", characters);
+
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {characters.map((character) => (
