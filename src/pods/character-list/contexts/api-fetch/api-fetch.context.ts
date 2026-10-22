@@ -6,7 +6,9 @@ export interface CharacterContext {
   endPages: number;
   isEnd: boolean;
   disable: boolean;
+  search: string;
   handleLoadMore: () => void;
+  setSearch: (value: string) => void;
 }
 
 export const ApiFetchContext = React.createContext<CharacterContext>({
@@ -15,5 +17,7 @@ export const ApiFetchContext = React.createContext<CharacterContext>({
   endPages: 1000000,
   isEnd: false,
   disable: false,
+  search: "",
   handleLoadMore: () => {},
+  setSearch: () => {},
 });

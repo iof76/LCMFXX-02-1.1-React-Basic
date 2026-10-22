@@ -1,6 +1,5 @@
 import { Outlet, useNavigate } from "react-router";
-import { ApiFetchProvider } from "#core/api-fetch"
-import { ApiFilterProvider } from "#core/api-filter"
+import { ApiFetchProvider } from "#pods/character-list/contexts/api-fetch";
 import { useAuth } from "#core/auth";
 import { ROUTES } from "#core/router";
 
@@ -26,9 +25,7 @@ export const AppLayout = () => {
       </header>
       <main className="mx-auto max-w-5xl p-6">
         <ApiFetchProvider>
-          <ApiFilterProvider>
             <Outlet />
-          </ApiFilterProvider>
         </ApiFetchProvider>
       </main>
     </div>
