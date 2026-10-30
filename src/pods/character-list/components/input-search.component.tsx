@@ -8,7 +8,6 @@ export const InputSearch = (props: Props) => {
 
       return (
           <div className="user-list-search">
-
             <label className="floating-label" htmlFor="search">
               <span>Buscar:</span>
               <input
@@ -18,7 +17,7 @@ export const InputSearch = (props: Props) => {
                 name="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Buscar..."
+                placeholder="Introduce tu busqueda..."
               />
             </label>
           </div>

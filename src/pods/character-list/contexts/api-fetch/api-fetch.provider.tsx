@@ -20,24 +20,39 @@ export const ApiFetchProvider = (props: Props) => {
   const debouncedValue = useDebounce(search, 500);
   const checkIsEnd = () => { if(page === endPages){setIsEnd(true)} }
 
+  const handleInitialLoad = React.useCallback(() => {
+    const loadData = async() => {
+      setDisable(true);
+      const {totalPages, resMembers} = await fetchMembers(1, search);
+      setMembers([...mapCharacterListFromApiToVm(resMembers)]);
+      setEndPages(totalPages);
+      setPage(2);
+      setDisable(false);
+    };
+    loadData();
+  }, [debouncedValue]  );
+
   React.useEffect(() => {
       const loadData = async() => {
-        setDisable(true);
-          const {totalPages, resMembers} = await fetchMembers(1);
-          setMembers([...mapCharacterListFromApiToVm(resMembers)]);
-          setEndPages(totalPages);
-          setPage(2);
-          setDisable(false);
+          await handleInitialLoad();
       }
 
       loadData();
   }, []);
 
+  React.useEffect(() => {
+      const callNew = async () => {
+          await handleInitialLoad();
+      };
+
+      callNew();
+  }, [debouncedValue]);
+
   const handleLoadMore = React.useCallback(() => {
       const callNew = async () => {
         if(endPages >= page){
             setDisable(true);
-            const {resMembers} = await fetchMembers( page );
+            const {resMembers} = await fetchMembers( page, search );
             setMembers([...members, ...mapCharacterListFromApiToVm(resMembers)]);
             setPage(page + 1);
             checkIsEnd();
@@ -46,22 +61,10 @@ export const ApiFetchProvider = (props: Props) => {
       }
       
       callNew();
-  }, [endPages, page, members]  );
-
-  const membersFilters = React.useMemo(() => {
-    if (!debouncedValue || debouncedValue.trim() === "") {
-      return [...members];
-    }
-
-    return members.filter((member: Character) => {
-      return member.name.toLowerCase().includes(debouncedValue.toLowerCase());
-    });
-  }, [debouncedValue, members]);
-
-
+  }, [endPages, page, members, debouncedValue]  );
 
   return (
-            <ApiFetchContext value={{ disable, members: membersFilters, handleLoadMore, search, setSearch, endPages, isEnd }}>
+            <ApiFetchContext value={{ disable, members, handleLoadMore, search, setSearch, endPages, isEnd }}>
                 {children}
             </ApiFetchContext>
          );

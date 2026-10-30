@@ -1,7 +1,8 @@
-export const fetchMembers = async(page: number) => {
+export const fetchMembers = async(page: number, name: string) => {
     
     try{
-      const response = await fetch(`/api/characters?page=${page}`);
+      const query = (!!name) ? `&name=${name}` : '';
+      const response = await fetch(`/api/characters?page=${page}${query}`);
       const json = await response.json();
 
       if(!response.ok){
