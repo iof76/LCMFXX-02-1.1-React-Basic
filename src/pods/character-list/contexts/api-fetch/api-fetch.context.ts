@@ -9,6 +9,7 @@ export interface CharacterContext {
   search: string;
   handleLoadMore: () => void;
   setSearch: (value: string) => void;
+  error?: string | null;
 }
 
 export const ApiFetchContext = React.createContext<CharacterContext>({
@@ -20,4 +21,5 @@ export const ApiFetchContext = React.createContext<CharacterContext>({
   search: "",
   handleLoadMore: () => {},
   setSearch: () => {},
+  error: '',
 });

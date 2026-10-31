@@ -15,6 +15,7 @@ export const ApiFetchProvider = (props: Props) => {
   const [ page, setPage ] = React.useState<number>(1);
   const [ endPages, setEndPages ] = React.useState<number>(100000);
   const [ isEnd, setIsEnd ] = React.useState<boolean>(false);
+  const [ error, setError ] = React.useState<string | null>(null);
   const [ disable, setDisable ] = React.useState<boolean>(false);
   const [ search, setSearch ] = React.useState<string>("");
   const debouncedValue = useDebounce(search, 500);
@@ -26,6 +27,7 @@ export const ApiFetchProvider = (props: Props) => {
       const {totalPages, resMembers} = await fetchMembers(1, search);
       setMembers([...mapCharacterListFromApiToVm(resMembers)]);
       setEndPages(totalPages);
+      checkIsEnd();
       setPage(2);
       setDisable(false);
     };
@@ -50,12 +52,17 @@ export const ApiFetchProvider = (props: Props) => {
 
   const handleLoadMore = React.useCallback(() => {
       const callNew = async () => {
+        setError(null);
         if(endPages >= page){
             setDisable(true);
-            const {resMembers} = await fetchMembers( page, search );
-            setMembers([...members, ...mapCharacterListFromApiToVm(resMembers)]);
-            setPage(page + 1);
+            const {totalPages, resMembers} = await fetchMembers( page, search );
+            if(totalPages !== -1){
+                setMembers([...members, ...mapCharacterListFromApiToVm(resMembers)]);
+            }else{
+                setError("Error al cargar más personajes");
+            }
             checkIsEnd();
+            setPage(page + 1);
             setDisable(false);
         }
       }
@@ -64,7 +71,7 @@ export const ApiFetchProvider = (props: Props) => {
   }, [endPages, page, members, debouncedValue]  );
 
   return (
-            <ApiFetchContext value={{ disable, members, handleLoadMore, search, setSearch, endPages, isEnd }}>
+            <ApiFetchContext value={{ disable, members, handleLoadMore, search, setSearch, endPages, isEnd, error }}>
                 {children}
             </ApiFetchContext>
          );
