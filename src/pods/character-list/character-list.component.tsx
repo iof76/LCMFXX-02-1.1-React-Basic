@@ -1,5 +1,5 @@
 import { CharacterCard } from "./components";
-import type { Character } from "./character-list.vm";
+import type { Character } from "#common/models";
 
 interface Props {
   characters: Character[];

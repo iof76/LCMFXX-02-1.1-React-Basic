@@ -62,7 +62,9 @@ export const ApiFetchProvider = (props: Props) => {
                 setError("Error al cargar más personajes");
             }
             checkIsEnd();
+            // console.log("page", page, "endPages", endPages);
             setPage(page + 1);
+            // console.log("page", page, "endPages", endPages);
             setDisable(false);
         }
       }

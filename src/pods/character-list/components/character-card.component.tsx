@@ -1,6 +1,6 @@
 import { Link, generatePath } from "react-router";
 import { ROUTES } from "#core/router";
-import type { Character } from "../character-list.vm";
+import type { Character } from "#common/models";
 
 interface Props {
   character: Character;
