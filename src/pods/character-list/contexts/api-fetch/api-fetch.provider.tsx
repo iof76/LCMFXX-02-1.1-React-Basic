@@ -14,12 +14,10 @@ export const ApiFetchProvider = (props: Props) => {
   const [ members, setMembers ] = React.useState<Character[]>([]);
   const [ page, setPage ] = React.useState<number>(1);
   const [ endPages, setEndPages ] = React.useState<number>(100000);
-  const [ isEnd, setIsEnd ] = React.useState<boolean>(false);
   const [ error, setError ] = React.useState<string | null>(null);
   const [ disable, setDisable ] = React.useState<boolean>(false);
   const [ search, setSearch ] = React.useState<string>("");
   const debouncedValue = useDebounce(search, 500);
-  const checkIsEnd = () => { if(page === endPages){setIsEnd(true)} }
 
   const handleInitialLoad = React.useCallback(() => {
     const loadData = async() => {
@@ -27,7 +25,6 @@ export const ApiFetchProvider = (props: Props) => {
       const {totalPages, resMembers} = await fetchMembers(1, search);
       setMembers([...mapCharacterListFromApiToVm(resMembers)]);
       setEndPages(totalPages);
-      checkIsEnd();
       setPage(2);
       setDisable(false);
     };
@@ -61,7 +58,6 @@ export const ApiFetchProvider = (props: Props) => {
             }else{
                 setError("Error al cargar más personajes");
             }
-            checkIsEnd();
             // console.log("page", page, "endPages", endPages);
             setPage(page + 1);
             // console.log("page", page, "endPages", endPages);
@@ -73,7 +69,7 @@ export const ApiFetchProvider = (props: Props) => {
   }, [endPages, page, members, debouncedValue]  );
 
   return (
-            <ApiFetchContext value={{ disable, members, handleLoadMore, search, setSearch, endPages, isEnd, error }}>
+            <ApiFetchContext value={{ disable, members, handleLoadMore, search, setSearch, endPages, isEnd: (page >= endPages), error }}>
                 {children}
             </ApiFetchContext>
          );
